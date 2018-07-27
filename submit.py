@@ -156,7 +156,7 @@ if __name__ == "__main__":
     tempDir = 'dp_mumu'
 
     #ctau = round(2e-14/dw, 2)
-    ctau = 0.08 * (0.1/med) * (1e-4/epsilon)**2 * 0.1 #cm
+    ctau = 0.08 * (0.1/med) * (1e-4/epsilon)**2 * 0.1 * 25063.2 #cm
     rawParams = {'XMASS': mps, 'MED': med, 'EPSILON': epsilon}
     tagParams = {'XMASS': stringfy_friendly(mps), 'MED': stringfy_friendly(med), 'DLENGTH': stringfy_friendly(ctau)}
     tag = format_template(template, tagParams)
