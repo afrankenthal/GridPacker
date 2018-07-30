@@ -43,7 +43,7 @@ def main():
     gpdir = os.path.join(cwd, 'LHEs')
     if not os.path.isdir(gpdir):
         os.mkdir( gpdir )
-    gpname = 'SIDM-'+os.path.basename(sys.argv[1]).split('_slc6_amd64_gcc481_')[0]+'.lhe'
+    gpname = 'iDM-'+os.path.basename(sys.argv[1]).split('_slc6_amd64_gcc481_')[0]+'.lhe'
     os.system('cp cmsgrid_final.lhe {0}'.format(os.path.join(gpdir, gpname)))
     os.chdir(cwd)
     print 'Done.'
