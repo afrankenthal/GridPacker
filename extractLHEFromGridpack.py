@@ -29,6 +29,8 @@ def main():
     gp = os.path.join(cwd, sys.argv[1])
     lhedir = os.path.join(cwd, 'LHEs')
     lhedir = os.path.join(lhedir, os.path.basename(sys.argv[1]).split('.tar.xz')[0])
+    if (not os.path.isdir(lhedir)):
+        os.mkdir(lhedir)
 
     # setup CMSSW in /tmp
     setup_CMSSW()

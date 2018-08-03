@@ -12,14 +12,20 @@ gp = sys.argv[1]
 
 #for gp in gpdir:
 if('iDM_Mchi' in gp) and ('ctau' in gp):
-	ctau_str = gp.split('ctau-')[1].split('_slc6_amd64_')[0]
-	ctau = float(ctau_str.replace('p','.'))*10
+	if ("_slc6_amd64_" in gp):
+		ctau_str = gp.split('ctau-')[1].split('_slc6_amd64_')[0]
+		ctau = float(ctau_str.replace('p','.'))*10
+	else:
+		ctau_str = gp.split('ctau-')[1].split('.tar')[0]
+		ctau = float(ctau_str.replace('p','.'))*10
 
-	newname = os.path.basename(gp).split("_slc6_amd64_")[0] + ".tar.xz"
-
-	#### Command 1: Move gridpack to right location
-	cmd = 'mv %s GridPacks/%s' % (gp, newname)
-	os.system(cmd)
+	#### Command 0: Move gridpack to right location IF not already there
+	if ("_slc6_amd64_" in gp):
+		newname = os.path.basename(gp).split("_slc6_amd64_")[0] + ".tar.xz"
+		cmd = 'mv %s GridPacks/%s' % (gp, newname)
+		os.system(cmd)
+	else:
+		newname = os.path.basename(gp)
 
 	import random
 	rnum = random.randint(1e5, 1e6)
