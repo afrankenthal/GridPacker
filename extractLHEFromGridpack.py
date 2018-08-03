@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os, sys
 
-NEVENTS=1e4
+NEVENTS=1e2
 NCPU=4
 
 def setup_CMSSW():
@@ -25,10 +25,13 @@ def setup_CMSSW():
 
 
 def main():
+    
+    lifetime = sys.argv[3]
     cwd = os.getcwd()
     gp = os.path.join(cwd, sys.argv[1])
     lhedir = os.path.join(cwd, 'LHEs')
     lhedir = os.path.join(lhedir, os.path.basename(sys.argv[1]).split('.tar.xz')[0])
+    lhedir = lhedir.split('ctau-')[0] + 'ctau-' + lifetime.replace('.','p')
     if (not os.path.isdir(lhedir)):
         os.mkdir(lhedir)
 

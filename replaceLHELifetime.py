@@ -19,6 +19,9 @@ inFn = args.input
 rpid = args.pid
 ctau = args.ctau
 #ctau = 100.0
+#outFn = inFn.split('ctau-')[0] + 'ctau-' + str(ctau).replace('.','p') + '.lhe'
+outFn = inFn.split('ctau-')[0] + 'ctau-' + inFn.split('ctau-')[1] + 'ctau-' + str(ctau/10).replace('.', 'p') + '_' + inFn.split('_')[-1]
+print "OUTFN: " + outFn
 
 if __name__ == '__main__':
     inf = open(inFn, 'r')
@@ -54,4 +57,6 @@ if __name__ == '__main__':
     outf.close()
     inf.close()
 
-    os.system('mv {0}.tmp {0}'.format(inFn))
+    print "OUTFN: %s" % outFn
+
+    os.system('mv {0}.tmp {1}'.format(inFn, outFn))
