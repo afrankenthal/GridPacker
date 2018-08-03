@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os, sys
 
-NEVENTS=1e3
+NEVENTS=1e4
 NCPU=4
 
 def setup_CMSSW():
@@ -27,6 +27,8 @@ def setup_CMSSW():
 def main():
     cwd = os.getcwd()
     gp = os.path.join(cwd, sys.argv[1])
+    lhedir = os.path.join(cwd, 'LHEs')
+    lhedir = os.path.join(lhedir, os.path.basename(sys.argv[1]).split('.tar.xz')[0])
 
     # setup CMSSW in /tmp
     setup_CMSSW()
@@ -35,19 +37,22 @@ def main():
     os.system('tar xaf {0}'.format( gp ))
 
     # get LHE
-    import random
-    rnum = random.randint(1e5, 1e6)
+    #import random
+    #rnum = random.randint(1e5, 1e6)
+    rnum = sys.argv[2]
     os.system('./runcmsgrid.sh {0} {1} {2}'.format(int(NEVENTS), rnum, NCPU))
 
     # copy back and renaming
-    gpdir = os.path.join(cwd, 'LHEs')
-    if not os.path.isdir(gpdir):
-        os.mkdir( gpdir )
-    gpname = 'iDM-'+os.path.basename(sys.argv[1]).split('_slc6_amd64_gcc481_')[0]+'.lhe'
-    os.system('cp cmsgrid_final.lhe {0}'.format(os.path.join(gpdir, gpname)))
+    #gpdir = os.path.join(cwd, 'LHEs')
+    #if not os.path.isdir(gpdir):
+    #    os.mkdir( gpdir )
+    #gpname = 'iDM-'+os.path.basename(sys.argv[1]).split('_slc6_amd64_gcc481_')[0]+'.lhe'
+    lhename = os.path.basename(sys.argv[1]).split('.tar.xz')[0] + '_' + str(rnum) + '.lhe'
+    os.system('cp cmsgrid_final.lhe {0}'.format(os.path.join(lhedir, lhename)))
     os.chdir(cwd)
     print 'Done.'
-    print os.listdir('./LHEs')
+    #print os.listdir('./LHEs')
+    print os.listdir(lhedir)
 
 if __name__ == "__main__":
     main()

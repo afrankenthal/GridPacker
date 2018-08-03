@@ -142,25 +142,21 @@ def lsf_submit(tag):
     #cmd = './submit_gridpack_generation.sh 15000 15000 2nw {0} cards/{0} 8nh'.format(tag)
     cmd = './submit_gridpack_generation.sh 15000 15000 8nh {0} cards/{0} 8nh'.format(tag)
     os.system(cmd)
-    cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz %s.tar.xz' % (tag, tag)
+    #cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz GridPacker/GridPacks/%s.tar.xz' % (tag, tag)
     os.chdir(cwd)
 
 if __name__ == "__main__":
     replace_gridpack_generation()
-    #template = 'SIDMmumu_Mps-XMASS_MZp-MED_ctau-DLENGTH'
+
     template = 'iDM_Mchi-XMASS_dMchi-XHS_mZDinput-MED_ctau-DLENGTH'
     
-    #mps = 200
     med = 15.0
     mchi = 5.25
     dmchi = 0.5
-    #dw  = 6.6e-15
-    #epsilon = 2.36e-5
-    tempDir = 'dp_mumu'
 
-    #ctau = round(2e-14/dw, 2)
-    #ctau = 0.08 * (0.1/med) * (1e-4/epsilon)**2 * 0.1 #cm
-    ctau = 0.01 # cm -- this will be used in replaceLHELifetime.py later on
+    tempDir = 'iDM'
+
+    ctau = 0 # cm -- just a placeholder, will manually edit ctau later on for replacelifetime script
     rawParams = {'XMASS': mchi, 'MED': med, 'XHS': dmchi} #'EPSILON': epsilon}
     tagParams = {'XMASS': stringfy_friendly(mchi), 'MED': stringfy_friendly(med), 'XHS': stringfy_friendly(dmchi), 'DLENGTH': stringfy_friendly(ctau)}
     tag = format_template(template, tagParams)
