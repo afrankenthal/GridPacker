@@ -52,8 +52,17 @@ if('iDM_Mchi' in gp) and ('ctau' in gp):
 	process1.wait()
 
 	lhe = lhe.split('ctau-')[0] + 'ctau-' + lhe.split('ctau-')[1] + 'ctau-' + sys.argv[2].replace('.','p') + '_' + lhe.split('_')[-1]
+	lhedir = lhe.split('/')[0] 
 
 	#### Command 4: gzip resulting LHE
 	cmd3 = "gzip LHEs/%s" % (lhe)
 	os.system(cmd3)
 	print "done: ", gp
+
+	#### Command 5: transfer gzipped LHE to EOS
+	cmd4 = "mkdir -p /eos/user/a/asterenb/iDM/LHE_Samples/%s" % lhedir
+	os.system(cmd4)
+	cmd5 = "xrdcp LHEs/%s.gz root://eosuser.cern.ch//eos/user/a/asterenb/iDM/LHE_Samples/%s.gz" % (lhe, lhe)
+	os.system(cmd5)
+	cmd6 = "rm LHEs/%s.gz LHEs/%s" % (lhe, lhe)
+	os.system(cmd6)

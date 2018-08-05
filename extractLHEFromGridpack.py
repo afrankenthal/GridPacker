@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os, sys
 
-NEVENTS=1e2
+NEVENTS=1e4
 NCPU=4
 
 def setup_CMSSW():
