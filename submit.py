@@ -26,7 +26,7 @@ def replace_gridpack_generation():
         cmd = 'cp gridpack_generation.sh gridpack_generation.sh.bkp'
         os.system(cmd)
 
-        replaceWith = 'wget --no-check-certificate https://asterenb.web.cern.ch/asterenb/$model'
+        replaceWith = 'wget --no-check-certificate https://asterenb.web.cern.ch/asterenb/iDM/model/$model'
         toBeReplaced = 'wget --no-check-certificate https://wsi.web.cern.ch/wsi/mc/$model'
         cmd = 'sed -i "s#%s#%s#g" gridpack_generation.sh' % (toBeReplaced, replaceWith)
         print cmd
@@ -121,7 +121,7 @@ def run_gridpack_generation(tag):
         print "Remenant exists! Cleaning.. ",
         os.system('rm -rf '+tag)
         print "Cleaned!"
-    cmd = './gridpack_generation.sh {0} cards/{0} 1nd'.format(tag)
+    cmd = './gridpack_generation.sh {0} cards/{0} local'.format(tag)
     print cmd
     os.system(cmd)
     cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz %s.tar.xz' % (tag, tag)
@@ -142,17 +142,40 @@ def lsf_submit(tag):
     #cmd = './submit_gridpack_generation.sh 15000 15000 2nw {0} cards/{0} 8nh'.format(tag)
     cmd = './submit_gridpack_generation.sh 15000 15000 8nh {0} cards/{0} 8nh'.format(tag)
     os.system(cmd)
-    #cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz GridPacker/GridPacks/%s.tar.xz' % (tag, tag)
+    cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz GridPacker/GridPacks/%s.tar.xz' % (tag, tag)
     os.chdir(cwd)
 
+def condor_submit(tag):
+    '''
+    ./submit_condor_gridpack_generation.sh <name of process card without _proc_card.dat>
+    <folder containing cards relative to current location> <scram_arch> <cmssw_version>
+    '''
+    cwd = os.getcwd()
+    os.chdir(cwd+'/../')
+    cmd = './submit_condor_gridpack_generation.sh {0} cards/{0}'.format(tag)
+    os.system(cmd)
+    cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz GridPacker/GridPacks/%s.tar.xz' % (tag, tag)
+    os.chdir(cwd)
+
+
 if __name__ == "__main__":
+    if (len(sys.argv) < 3):
+         print 'Error! Need at least 2 arguments. Usage: ./submit.py m1 m2 (in GeV)'
+         sys.exit()
+
     replace_gridpack_generation()
 
-    template = 'iDM_Mchi-XMASS_dMchi-XHS_mZDinput-MED_ctau-DLENGTH'
-    
-    med = 15.0
-    mchi = 5.25
-    dmchi = 0.5
+    template = 'iDM_Mchi-XMASS_dMchi-XHS_mZDinput-MED_ctau-DLENGTH_1or2jets_icckw1_drjj0_xptj80_xqcut20'
+
+    print 'Preparing local submission for mass parameters m1 = %s GeV, m2 = %s GeV:' % (sys.argv[1], sys.argv[2])
+    mchi = (float(sys.argv[1]) + float(sys.argv[2]))/2
+    dmchi = abs(float(sys.argv[2]) - float(sys.argv[1]))
+    med = 3 * min(float(sys.argv[1]), float(sys.argv[2]))
+    print '\tMass average: mchi = %.2f \n\tMass difference: dmchi = %.2f \n\tDark photon mass: med = %.2f' % (mchi, dmchi, med)
+
+    #med = 94.5
+    #mchi = 31.5
+    #dmchi = 3
 
     tempDir = 'iDM'
 
@@ -163,6 +186,7 @@ if __name__ == "__main__":
 
     create_parametrized_cards(tempDir, tag, rawParams)
     os.system('ls -alrth ../cards')
-    #run_gridpack_generation(tag)
-    lsf_submit(tag)
+    run_gridpack_generation(tag)
+    #lsf_submit(tag)
+    #condor_submit(tag)
 

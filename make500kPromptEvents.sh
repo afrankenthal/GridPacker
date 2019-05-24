@@ -10,7 +10,7 @@ echo "Generating first LHE batch from GridPack..."
 base=$(basename -- "$1" | awk '{split($0, a, "_slc6_amd64_"); print a[1]}')
 filename="GridPacks/$base.tar.xz"
 
-for i in `seq 2 47`; do
+for i in `seq 2 13`; do
 	echo "Generating batch number $i from GridPack"
 	./doAllLHEPrompt.py $filename
 done

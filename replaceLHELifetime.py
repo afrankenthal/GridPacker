@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', type=str, required=True, help='Input LHE, which is to be replaced')
 parser.add_argument('-t', '--ctau', type=float, required=True, help='Mean proper decay length[mm]')
 parser.add_argument('-p', '--pid', type=int, default=1000023, help='Particle whose lifetime is going to be replaced')
+parser.add_argument('-o', '--output', type=str, help='Output filename')
 args = parser.parse_args()
 
 inFn = args.input
@@ -20,8 +21,10 @@ rpid = args.pid
 ctau = args.ctau
 #ctau = 100.0
 #outFn = inFn.split('ctau-')[0] + 'ctau-' + str(ctau).replace('.','p') + '.lhe'
-outFn = inFn.split('ctau-')[0] + 'ctau-' + inFn.split('ctau-')[1] + 'ctau-' + str(ctau/10).replace('.', 'p') + '_' + inFn.split('_')[-1]
-print "OUTFN: " + outFn
+if (args.output is not None):
+	outFn = args.output
+else:
+	outFn = inFn.split('ctau-')[0] + 'ctau-' + inFn.split('ctau-')[1] + 'ctau-' + str(ctau/10).replace('.', 'p') + '_' + inFn.split('_')[-1]
 
 if __name__ == '__main__':
     inf = open(inFn, 'r')
@@ -57,6 +60,6 @@ if __name__ == '__main__':
     outf.close()
     inf.close()
 
-    print "OUTFN: %s" % outFn
+    print "[replaceLHELifetime.py] OutFn: " + outFn
 
     os.system('mv {0}.tmp {1}'.format(inFn, outFn))
