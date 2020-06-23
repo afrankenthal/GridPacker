@@ -186,7 +186,7 @@ if __name__ == "__main__":
 
     create_parametrized_cards(tempDir, tag, rawParams)
     os.system('ls -alrth ../cards_2016')
-    #run_gridpack_generation(tag)
-    #lsf_submit(tag)
-    condor_submit(tag)
+    run_gridpack_generation(tag)
+    lsf_submit(tag)
+    #condor_submit(tag)
 
