@@ -121,12 +121,12 @@ def run_gridpack_generation(tag):
         print "Remenant exists! Cleaning.. ",
         os.system('rm -rf '+tag)
         print "Cleaned!"
-    cmd = './gridpack_generation.sh {0} cards/{0} local'.format(tag)
+    cmd = './gridpack_generation.sh {0} cards/{0} local ALL slc7_amd64_gcc630 CMSSW_9_3_16'.format(tag)
     print cmd
     os.system(cmd)
-    cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz %s.tar.xz' % (tag, tag)
-    print cmd
-    os.system(cmd)
+    #cmd = 'mv %s_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz %s.tar.xz' % (tag, tag)
+    #print cmd
+    #os.system(cmd)
     # clean working directory, it's useless
     os.system('rm -rf %s &' % tag)
     os.chdir(cwd)
