@@ -26,7 +26,8 @@ def replace_gridpack_generation():
         cmd = 'cp gridpack_generation.sh gridpack_generation.sh.bkp'
         os.system(cmd)
 
-        replaceWith = 'wget --no-check-certificate https://asterenb.web.cern.ch/asterenb/iDM/model/$model'
+        #replaceWith = 'wget --no-check-certificate https://asterenb.web.cern.ch/asterenb/iDM/model/$model'
+        replaceWith = 'wget --no-check-certificate https://jmonroym.web.cern.ch/jmonroym/iDM/model/$model'
         toBeReplaced = 'wget --no-check-certificate https://wsi.web.cern.ch/wsi/mc/$model'
         cmd = 'sed -i "s#%s#%s#g" gridpack_generation.sh' % (toBeReplaced, replaceWith)
         print cmd

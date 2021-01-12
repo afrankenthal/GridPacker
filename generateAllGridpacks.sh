@@ -1,8 +1,8 @@
 #!/bin/bash
 
-dmchis=(0.1 0.4)
-m1s=(1 3)
-#m1s=(10 20 5 30 40 60 80 100)
+dmchis=(0.01 0.1 0.2 0.4)
+#m1s=(1 3)
+m1s=(1 3 5 10 20 30 40 60 80 100)
 
 for m1 in "${m1s[@]}"; do
 	for dmchi in "${dmchis[@]}"; do
